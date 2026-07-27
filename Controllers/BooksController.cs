@@ -21,6 +21,24 @@ public class BooksController : ControllerBase
         _registerBookUseCase = registerBookUseCase;
     }
 
+    [HttpPost]
+    [ProducesResponseType(typeof(ResponseShortBookJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
+    public IActionResult Register([FromBody] RequestBookJson request)
+    {
+        var createdBook = _registerBookUseCase.Execute(request);
+
+        var response = new ResponseShortBookJson
+        {
+            Id = createdBook.Id,
+            Title = createdBook.Title,
+            Author = createdBook.Author,
+            Genre = createdBook.Genre,
+            Price = createdBook.Price
+        };
+
+        return Created(string.Empty, response);
+    }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -34,21 +52,32 @@ public class BooksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    [ProducesResponseType(typeof(ResponseShortBookJson), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
-    public IActionResult Register([FromBody] RequestBookJson request) {
-        var createdBook = _registerBookUseCase.Execute(request);
-
-        var response = new ResponseShortBookJson
-        { 
-            Id = createdBook.Id,
-            Title = createdBook.Title,
-            Author = createdBook.Author,
-            Genre = createdBook.Genre,
-            Price = createdBook.Price
-        };
-
-        return Created(string.Empty, response);
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult GetById(Guid id) {
+        return NoContent();
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public IActionResult Update(Guid id)
+    {
+        return Ok();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+   
+    public IActionResult Delete(Guid id)
+    {
+        return NoContent();
+    }
+
 }
