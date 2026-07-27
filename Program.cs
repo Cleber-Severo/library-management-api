@@ -4,6 +4,7 @@ using LibraryManagementApi.Repositories.Interfaces;
 using LibraryManagementApi.UseCases.Books.GetAll;
 using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
+using LibraryManagementApi.UseCases.Books.Update;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddSingleton<IBookRepository, InMemoryBookRepository>();
 builder.Services.AddScoped<GetAllBooksUseCase>();
 builder.Services.AddScoped<GetBookByIdUseCase>();
 builder.Services.AddScoped<RegisterBookUseCase>();
+builder.Services.AddScoped<UpdateBookUseCase>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

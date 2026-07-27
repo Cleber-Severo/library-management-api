@@ -3,6 +3,7 @@ using LibraryManagementApi.Responses;
 using LibraryManagementApi.UseCases.Books.GetAll;
 using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
+using LibraryManagementApi.UseCases.Books.Update;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementApi.Controllers;
@@ -14,15 +15,19 @@ public class BooksController : ControllerBase
     private readonly GetAllBooksUseCase _getAllBooksUseCase;
     private readonly RegisterBookUseCase _registerBookUseCase;
     private readonly GetBookByIdUseCase _getBookByidUseCase;
+    private readonly UpdateBookUseCase _updateBookUseCase;
 
     public BooksController(
         GetAllBooksUseCase getAllBooksUseCase,
         RegisterBookUseCase registerBookUseCase,
-        GetBookByIdUseCase getBookByIdUseCase)
+        GetBookByIdUseCase getBookByIdUseCase,
+        UpdateBookUseCase updateBookUseCase
+    )
     {
         _getAllBooksUseCase = getAllBooksUseCase;
         _registerBookUseCase = registerBookUseCase;
         _getBookByidUseCase = getBookByIdUseCase;
+        _updateBookUseCase = updateBookUseCase;
     }
 
     [HttpPost]
@@ -69,10 +74,13 @@ public class BooksController : ControllerBase
     [HttpPut]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult Update(Guid id)
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    public IActionResult Update([FromRoute] Guid id, RequestUpdateBookJson request)
     {
-        return Ok();
+        _updateBookUseCase.Execute(request, id);
+
+        return Ok("Livro atualizado com sucesso.");
     }
 
     [HttpDelete]

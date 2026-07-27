@@ -1,6 +1,7 @@
 ﻿using LibraryManagementApi.Entities;
 using LibraryManagementApi.Enums;
 using LibraryManagementApi.Repositories.Interfaces;
+using LibraryManagementApi.Requests;
 
 namespace LibraryManagementApi.Repositories.InMemory;
 
@@ -48,11 +49,16 @@ public class InMemoryBookRepository : IBookRepository
     public Book? GetById(Guid id)
         => _books.FirstOrDefault(book => book.Id == id);
 
-    public bool Update(Book book)
+    public void Update(RequestUpdateBookJson request, Guid id)
     {
-        throw new NotImplementedException();
-    }
+        var book = _books.FirstOrDefault(book => book.Id == id);
 
+        if (book is null) return;
+
+        book.Title = request.Title;
+        book.Author = request.Author;
+        book.UpdatedAt = DateTime.UtcNow;
+    }
     IReadOnlyCollection<Book> IBookRepository.GetAll()
     {
         return GetAll();
