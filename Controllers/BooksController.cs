@@ -1,6 +1,7 @@
 ﻿using LibraryManagementApi.Requests;
 using LibraryManagementApi.Responses;
 using LibraryManagementApi.UseCases.Books.GetAll;
+using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,16 @@ public class BooksController : ControllerBase
 {
     private readonly GetAllBooksUseCase _getAllBooksUseCase;
     private readonly RegisterBookUseCase _registerBookUseCase;
+    private readonly GetBookByIdUseCase _getBookByidUseCase;
 
     public BooksController(
         GetAllBooksUseCase getAllBooksUseCase,
-        RegisterBookUseCase registerBookUseCase)
+        RegisterBookUseCase registerBookUseCase,
+        GetBookByIdUseCase getBookByIdUseCase)
     {
         _getAllBooksUseCase = getAllBooksUseCase;
         _registerBookUseCase = registerBookUseCase;
+        _getBookByidUseCase = getBookByIdUseCase;
     }
 
     [HttpPost]
@@ -54,11 +58,12 @@ public class BooksController : ControllerBase
 
     [HttpGet]
     [Route("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetById(Guid id) {
-        return NoContent();
+    [ProducesResponseType(typeof(ResponseBookJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
+    public IActionResult GetById([FromRoute] Guid id) {
+        var response = _getBookByidUseCase.Execute(id);
+
+        return Ok(response);
     }
 
     [HttpPut]

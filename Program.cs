@@ -2,8 +2,8 @@ using LibraryManagementApi.Filters;
 using LibraryManagementApi.Repositories.InMemory;
 using LibraryManagementApi.Repositories.Interfaces;
 using LibraryManagementApi.UseCases.Books.GetAll;
+using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 // InMemory repository
 builder.Services.AddSingleton<IBookRepository, InMemoryBookRepository>();
 builder.Services.AddScoped<GetAllBooksUseCase>();
+builder.Services.AddScoped<GetBookByIdUseCase>();
 builder.Services.AddScoped<RegisterBookUseCase>();
 
 

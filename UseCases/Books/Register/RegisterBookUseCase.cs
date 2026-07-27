@@ -25,7 +25,7 @@ public class RegisterBookUseCase
 
         if (existingBook is not null)
         {
-            throw new Exception("Book already exists.");
+            throw new ErrorOnValidationException(["Este livro já existe."]);
         }
 
         var entity = new Book
