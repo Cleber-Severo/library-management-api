@@ -1,6 +1,7 @@
 using LibraryManagementApi.Filters;
 using LibraryManagementApi.Repositories.InMemory;
 using LibraryManagementApi.Repositories.Interfaces;
+using LibraryManagementApi.UseCases.Books.Delete;
 using LibraryManagementApi.UseCases.Books.GetAll;
 using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
@@ -18,6 +19,7 @@ builder.Services.AddScoped<GetAllBooksUseCase>();
 builder.Services.AddScoped<GetBookByIdUseCase>();
 builder.Services.AddScoped<RegisterBookUseCase>();
 builder.Services.AddScoped<UpdateBookUseCase>();
+builder.Services.AddScoped<DeleteBookUseCase>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -39,9 +39,13 @@ public class InMemoryBookRepository : IBookRepository
             book.Author == author);
     }
 
-    public bool Delete(Guid id)
+    public void Delete(Guid id)
     {
-        throw new NotImplementedException();
+        var book = _books.FirstOrDefault(book => book.Id == id);
+
+        if (book is null) return;
+
+        _books.Remove(book);
     }
 
     public List<Book> GetAll() => _books;

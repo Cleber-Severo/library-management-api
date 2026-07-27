@@ -1,5 +1,6 @@
 ﻿using LibraryManagementApi.Requests;
 using LibraryManagementApi.Responses;
+using LibraryManagementApi.UseCases.Books.Delete;
 using LibraryManagementApi.UseCases.Books.GetAll;
 using LibraryManagementApi.UseCases.Books.GetById;
 using LibraryManagementApi.UseCases.Books.Register;
@@ -16,18 +17,21 @@ public class BooksController : ControllerBase
     private readonly RegisterBookUseCase _registerBookUseCase;
     private readonly GetBookByIdUseCase _getBookByidUseCase;
     private readonly UpdateBookUseCase _updateBookUseCase;
+    private readonly DeleteBookUseCase _deleteBookUseCase;
 
     public BooksController(
         GetAllBooksUseCase getAllBooksUseCase,
         RegisterBookUseCase registerBookUseCase,
         GetBookByIdUseCase getBookByIdUseCase,
-        UpdateBookUseCase updateBookUseCase
+        UpdateBookUseCase updateBookUseCase,
+        DeleteBookUseCase deleteBookUseCase
     )
     {
         _getAllBooksUseCase = getAllBooksUseCase;
         _registerBookUseCase = registerBookUseCase;
         _getBookByidUseCase = getBookByIdUseCase;
         _updateBookUseCase = updateBookUseCase;
+        _deleteBookUseCase = deleteBookUseCase;
     }
 
     [HttpPost]
@@ -85,12 +89,13 @@ public class BooksController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-   
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status404NotFound)]
     public IActionResult Delete(Guid id)
     {
-        return NoContent();
+        _deleteBookUseCase.Execute(id);
+
+        return Ok("Livro removido com sucesso.");
     }
 
 }

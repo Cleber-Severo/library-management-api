@@ -10,4 +10,6 @@ public interface IBookRepository
     void Add(Book book);
     Book? GetByTitleAndAuthor(string title, string author);
     void Update(RequestUpdateBookJson request, Guid id);
+
+    void Delete(Guid id);
 }
