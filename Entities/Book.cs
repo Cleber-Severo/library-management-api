@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementApi.Entity;
+﻿namespace LibraryManagementApi.Entities;
 
 public class Book
 {
