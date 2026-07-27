@@ -12,7 +12,7 @@ public class InMemoryBookRepository : IBookRepository
         {
             Title = "Clean Code",
             Author = "Robert C. Martin",
-            Genre = EnumGenre.Software,
+            Genre = EnumGenre.Romance,
             Price = 129.90m,
             Stock = 10
         },
@@ -28,7 +28,14 @@ public class InMemoryBookRepository : IBookRepository
 
     public void Add(Book book)
     {
-        throw new NotImplementedException();
+        _books.Add(book);
+    }
+
+    public Book? GetByTitleAndAuthor(string title, string author)
+    {
+        return _books.FirstOrDefault(book =>
+            book.Title == title &&
+            book.Author == author);
     }
 
     public bool Delete(Guid id)

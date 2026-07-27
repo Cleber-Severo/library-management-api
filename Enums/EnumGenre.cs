@@ -3,10 +3,13 @@
 public enum EnumGenre
 {
     Action,
-    Romance,
     Adventure,
+    Romance,
     Horror,
     Suspense,
-    Comedy,
-    Software
+    Fantasy,
+    ScienceFiction,
+    Biography,
+    History,
+    Programming
 }
